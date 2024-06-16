@@ -8,9 +8,9 @@ screwhole_radius = 2.5;
 platethickness = 3;
 section_depth_top = 100;
 increment_delta=5;
-//   35   - 0 
+//   34   - 0 
 // bottom - top
-increment=30;
+increment=29;
 section=section_depth_top+(increment_delta*increment);
 echo(section);
 translate([170,0,300])
