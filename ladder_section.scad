@@ -8,20 +8,32 @@ screwhole_radius = 2.5;
 platethickness = 3;
 section_depth_top = 100;
 increment_delta=5;
-//   34   - 0 
+//   35   - 0 
 // bottom - top
 increment=28;
-section=section_depth_top+(increment_delta*increment);
-echo(section);
-translate([170,0,300])
-ladder_section(section);
-//ladder_segment(31,35);
+segment = true;
+stepsperseg = 7;
+bottom = 35; // bottom * increment + section_depth_top  
+incline_deg = 89;
+spacing = 300;
+increment_auto = round(spacing / tan(incline_deg));
+if (!segment){
+    section=section_depth_top+(increment_delta*increment);
+    echo(section);
+    translate([170,0,300])
+    ladder_section(section);
+}else{
+    echo(increment_auto);
+    ladder_segment(bottom - stepsperseg +1,bottom);
+    echo(increment_auto);
+}
+
 module ladder_segment(start, stop){
     for (i = [start:1:stop]){
         //do something(s)
-        translate([increment_delta*i,0,-300*i])
-        ladder_section(section_depth_top+(increment_delta*i));
-        echo(i,section_depth_top+(increment_delta*i));
+        translate([-increment_auto*i,0,-spacing*i])
+        ladder_section(section_depth_top+(increment_auto*i));
+        echo(i,section_depth_top+(increment_auto*i));
     }
 }
 //ladder_section(270);
