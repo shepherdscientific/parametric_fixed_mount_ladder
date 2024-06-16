@@ -10,7 +10,7 @@ section_depth_top = 100;
 increment_delta=5;
 //   34   - 0 
 // bottom - top
-increment=35;
+increment=28;
 section=section_depth_top+(increment_delta*increment);
 echo(section);
 translate([170,0,300])
