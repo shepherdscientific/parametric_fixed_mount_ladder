@@ -10,11 +10,20 @@ section_depth_top = 100;
 increment_delta=5;
 //   34   - 0 
 // bottom - top
-increment=29;
+increment=35;
 section=section_depth_top+(increment_delta*increment);
 echo(section);
 translate([170,0,300])
 ladder_section(section);
+//ladder_segment(31,35);
+module ladder_segment(start, stop){
+    for (i = [start:1:stop]){
+        //do something(s)
+        translate([increment_delta*i,0,-300*i])
+        ladder_section(section_depth_top+(increment_delta*i));
+        echo(i,section_depth_top+(increment_delta*i));
+    }
+}
 //ladder_section(270);
 module ladder_section(section_depth){
     // ladder arm right
