@@ -11,23 +11,43 @@ increment_delta=5;
 //   35   - 0 
 // bottom - top
 increment=28;
-segment = true;
 stepsperseg = 7;
-bottom = 35; // bottom * increment + section_depth_top  
+bottom = 6; // bottom * increment + section_depth_top  
 incline_deg = 89;
 spacing = 300;
 increment_auto = round(spacing / tan(incline_deg));
-if (!segment){
-    section=section_depth_top+(increment_delta*increment);
-    echo(section);
-    translate([170,0,300])
-    ladder_section(section);
+segment = true;
+ladder = false;
+if(!ladder){
+    // display only a single baseplate not the ladder or steps
+    // base plate
+    translate([section_depth,210,-30]) rotate([0,90,0])
+    baseplate();
+    // art strut
+    translate([section_depth,210-platethickness/2,0]) rotate([90,90,180])
+    armstrut();
+    // ladder arm left
+    translate([0, 210, 0]) rotate([0, 90, 0]) 
+    difference(){
+        cylinder(r=piperadius, h=section_depth);
+        cylinder(r=piperadius-3, h=section_depth-2);
+    }
+    
 }else{
-    echo(increment_auto);
-    ladder_segment(bottom - stepsperseg +1,bottom);
-    echo(increment_auto);
+    if (!segment){
+        // display a single section/step  with the increment value increment 
+        section=section_depth_top+(increment_delta*increment);
+        echo(section);
+        translate([170,0,300])
+        ladder_section(section);
+    }else{
+        // display a ladder segment with stepsperseg steps starting at increment bottom
+        echo(increment_auto);
+        translate([0,0,spacing*stepsperseg])
+        ladder_segment(bottom - stepsperseg +1,bottom);
+        echo(increment_auto);
+    }
 }
-
 module ladder_segment(start, stop){
     sidebar_z_offset = spacing*(stepsperseg -1)+(bottom-stepsperseg+1)*spacing;
     sidebar_x_offset = -(bottom-stepsperseg)*increment_auto-(increment_auto*(stepsperseg-1));
@@ -81,38 +101,39 @@ module ladder_section(section_depth){
     // base plate right
     translate([section_depth,-230,-30]) rotate([0,90,0])
         baseplate();
-
-
-    points = [[0,0], [80,0], [0,110]];
+    
+    // art strutd
     translate([section_depth,210-platethickness/2,0]) rotate([90,90,180]) 
-    linear_extrude(height=platethickness){
-    polygon(points=points);
-    }
+    armstrut();
 
     translate([section_depth,-230-platethickness/2,0]) rotate([90,90,180]) 
+    armstrut();
+
+}
+
+module armstrut(){
+    points = [[15,0], [80,0], [15,110]];
     linear_extrude(height=platethickness){
     polygon(points=points);
     }
-
-
-    module baseplate(){
-    linear_extrude(height=platethickness){
-        difference(){
-                roundedplate();
-                translate([baseplate_x/2-screwhole_offset,baseplate_y/2-screwhole_offset,0]) circle(screwhole_radius);
-                translate([baseplate_x/2-screwhole_offset,-
-                baseplate_y/2+screwhole_offset,0]) circle(screwhole_radius);
-                translate([-baseplate_x/2+screwhole_offset,baseplate_y/2-screwhole_offset,0]) circle(screwhole_radius);
-                translate([-baseplate_x/2+screwhole_offset,-baseplate_y/2+screwhole_offset,0]) circle(screwhole_radius);
-            }
+}
+module baseplate(){
+linear_extrude(height=platethickness){
+    difference(){
+            roundedplate();
+            translate([baseplate_x/2-screwhole_offset,baseplate_y/2-screwhole_offset,0]) circle(screwhole_radius);
+            translate([baseplate_x/2-screwhole_offset,-
+            baseplate_y/2+screwhole_offset,0]) circle(screwhole_radius);
+            translate([-baseplate_x/2+screwhole_offset,baseplate_y/2-screwhole_offset,0]) circle(screwhole_radius);
+            translate([-baseplate_x/2+screwhole_offset,-baseplate_y/2+screwhole_offset,0]) circle(screwhole_radius);
         }
     }
+}
 
-    module roundedplate(){
-    minkowski()
-    {
-        square([baseplate_x,baseplate_y],center=true);
-        circle(r = 10);
-    }
-    }
+module roundedplate(){
+minkowski()
+{
+    square([baseplate_x,baseplate_y],center=true);
+    circle(r = 10);
+}
 }
