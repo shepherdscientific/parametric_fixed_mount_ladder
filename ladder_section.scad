@@ -29,6 +29,13 @@ if (!segment){
 }
 
 module ladder_segment(start, stop){
+    sidebar_z_offset = spacing*(stepsperseg -1)+(bottom-stepsperseg+1)*spacing;
+    sidebar_x_offset = -(bottom-stepsperseg)*increment_auto-(increment_auto*(stepsperseg-1));
+    echo(sidebar_x_offset);
+    translate([sidebar_x_offset,-230,-sidebar_z_offset]) rotate([0,90-incline_deg,0])
+    cylinder(r=piperadius, h=spacing*(stepsperseg -1));
+    translate([sidebar_x_offset,210,-sidebar_z_offset]) rotate([0,90-incline_deg,0])
+    cylinder(r=piperadius, h=spacing*(stepsperseg -1));    
     for (i = [start:1:stop]){
         //do something(s)
         translate([-increment_auto*i,0,-spacing*i])
