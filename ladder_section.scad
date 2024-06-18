@@ -10,7 +10,7 @@ section_depth_top = 100;
 increment_delta=5;
 //   35   - 0 
 // bottom - top
-increment=1;
+increment=27;
 stepsperseg = 7;
 bottom = 6; // bottom * increment + section_depth_top  
 incline_deg = 89;
