@@ -17,7 +17,8 @@ incline_deg = 89;
 spacing = 300;
 increment_auto = round(spacing / tan(incline_deg));
 segment = true;
-ladder = false;
+ladder = true;
+all_segments = true;
 if(!ladder){
     // display only a single baseplate not the ladder or steps
     // base plate
@@ -41,14 +42,23 @@ if(!ladder){
         translate([170,0,300])
         ladder_section(section);
     }else{
-        // display a ladder segment with stepsperseg steps starting at increment bottom
-        echo(increment_auto);
-        translate([0,0,spacing*stepsperseg])
-        ladder_segment(bottom - stepsperseg +1,bottom);
-        echo(increment_auto);
+        if (all_segments){
+            for (i = [1:1:5]){
+                bottom = i*stepsperseg;
+                echo(i);
+                translate([0,0,spacing*stepsperseg])
+                ladder_segment(bottom, bottom - stepsperseg +1,bottom);
+            }
+         }else{
+         // display a ladder segment with stepsperseg steps starting at increment bottom
+            echo(increment_auto);
+            translate([0,0,spacing*stepsperseg])
+            ladder_segment(bottom, bottom - stepsperseg +1,bottom);
+            echo(increment_auto);
+        }
     }
 }
-module ladder_segment(start, stop){
+module ladder_segment(bottom, start, stop){
     sidebar_z_offset = spacing*(stepsperseg -1)+(bottom-stepsperseg+1)*spacing;
     sidebar_x_offset = -(bottom-stepsperseg)*increment_auto-(increment_auto*(stepsperseg-1));
     echo(sidebar_x_offset);
