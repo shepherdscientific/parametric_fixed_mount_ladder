@@ -10,13 +10,13 @@ section_depth_top = 100;
 increment_delta=5;
 //   35   - 0 
 // bottom - top
-increment=28;
+increment=1;
 stepsperseg = 7;
 bottom = 6; // bottom * increment + section_depth_top  
 incline_deg = 89;
 spacing = 300;
 increment_auto = round(spacing / tan(incline_deg));
-segment = true;
+segment = false;
 ladder = true;
 all_segments = true;
 if(!ladder){
@@ -43,7 +43,7 @@ if(!ladder){
         ladder_section(section);
     }else{
         if (all_segments){
-            for (i = [1:1:5]){
+            for (i = [1:1:1]){
                 bottom = i*stepsperseg;
                 echo(i);
                 translate([0,0,spacing*stepsperseg])
