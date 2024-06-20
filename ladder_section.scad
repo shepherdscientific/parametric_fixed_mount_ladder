@@ -16,9 +16,9 @@ bottom = 7; // bottom * increment + section_depth_top
 incline_deg = 89;
 spacing = 300;
 increment_auto = round(spacing / tan(incline_deg));
-segment = false;
+segment = true;
 ladder = true;
-all_segments = false;
+all_segments = true;
 if(!ladder){
     // display only a single baseplate not the ladder or steps
     // base plate
