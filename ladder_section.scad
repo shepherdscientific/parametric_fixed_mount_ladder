@@ -2,7 +2,7 @@ eps = 0.01;
 piperadius = 15;
 baseplate_x = 175;
 baseplate_y = 95;
-section_depth = 110;
+//section_depth = 110;
 screwhole_offset = 15;
 screwhole_radius = 2.5;
 platethickness = 3;
@@ -10,15 +10,15 @@ section_depth_top = 100;
 increment_delta=5;
 //   35   - 0 
 // bottom - top
-increment=27;
+increment=1;
 stepsperseg = 7;
-bottom = 6; // bottom * increment + section_depth_top  
+bottom = 7; // bottom * increment + section_depth_top  
 incline_deg = 89;
 spacing = 300;
 increment_auto = round(spacing / tan(incline_deg));
-segment = true;
+segment = false;
 ladder = true;
-all_segments = true;
+all_segments = false;
 if(!ladder){
     // display only a single baseplate not the ladder or steps
     // base plate
@@ -38,11 +38,12 @@ if(!ladder){
     if (!segment){
         // display a single section/step  with the increment value increment 
         section=section_depth_top+(increment_delta*increment);
-        echo(section);
+        echo("section",section);
         translate([170,0,300])
         ladder_section(section);
     }else{
         if (all_segments){
+            // show all segments
             for (i = [1:1:5]){
                 bottom = i*stepsperseg;
                 echo(i);
@@ -50,7 +51,7 @@ if(!ladder){
                 ladder_segment(bottom, bottom - stepsperseg +1,bottom);
             }
          }else{
-         // display a ladder segment with stepsperseg steps starting at increment bottom
+            // show one ladder segment 
             echo(increment_auto);
             translate([0,0,spacing*stepsperseg])
             ladder_segment(bottom, bottom - stepsperseg +1,bottom);
