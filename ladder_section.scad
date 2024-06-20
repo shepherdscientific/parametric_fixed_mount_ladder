@@ -2,7 +2,7 @@ eps = 0.01;
 piperadius = 15;
 baseplate_x = 175;
 baseplate_y = 95;
-//section_depth = 110;
+section_depth = 110;
 screwhole_offset = 15;
 screwhole_radius = 2.5;
 platethickness = 3;
@@ -16,8 +16,8 @@ bottom = 7; // bottom * increment + section_depth_top
 incline_deg = 89;
 spacing = 300;
 increment_auto = round(spacing / tan(incline_deg));
-segment = true;
-ladder = true;
+segment = false;
+ladder = false;
 all_segments = true;
 if(!ladder){
     // display only a single baseplate not the ladder or steps
