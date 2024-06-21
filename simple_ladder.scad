@@ -8,9 +8,9 @@ piperadius=15;
 // ladder constants
 start_depth = 110;
 incline_deg = 1;
-width = 320;
+width = 320+(piperadius*2);
 step_spacing=300;       // space between steps
-num_steps=15;
+num_steps=35;
 num_segments=5;
 steps_seg=num_steps/num_segments;
 echo("    steps per segment : ",steps_seg);
@@ -19,11 +19,14 @@ segment_length = (steps_seg+1)*step_spacing;
 echo(" total length : ",total_length)
 echo(" segment length : ",segment_length)
 
-translate([0,0,total_length-1000])
+translate([0,0,total_length-1000]){
 //all_segments();
-//segment(5);
-baseplate("up",110,1);
+segment(3);
+}
 
+module baseplate_detail(){
+//baseplate("up",110,1);
+}
 module all_segments(){
     for (i = [1:1:num_segments]){
         segment(i);
@@ -97,7 +100,7 @@ module baseplate(type,depth,start_depth){
         translate([0,0,3]) rotate([90,0,0]) armstrut();
     }
     module baseplate(){
-        cylinder(r=piperadius, start_depth+depth);
+        cylinder(r=piperadius, start_depth+depth+1);
     linear_extrude(height=platethickness){
         translate([30,0,0]){
             difference(){
@@ -134,14 +137,19 @@ module arc(rad,type,start_depth){
         translate([40,0,0])
         rotate([90,-90-incline_deg,0]) arc(90-incline_deg);
     } else if( type=="midr"){
-        rotate([90,0,90]) arc(90);
+        rotate([90,0,90]) arc(91);
     } else if( type=="midl"){
-        rotate([90,0,-90]) arc(90);
+        rotate([90,0,-90]) arc(91);
     }
     module arc(angle){
+       difference(){
        rotate_extrude(angle=angle, convexity=10)
            translate([rad, 0]) circle(piperadius);     
-        }
+        
+       rotate_extrude(angle=angle, convexity=10)
+           translate([rad, 0]) circle(piperadius-(platethickness));     
+        }        
+    }
     
 }
 
